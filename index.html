@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Lengkap: Talent Management, Out Searching & Laravel</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --info-color: #1abc9c;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 40px 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        
+        .author {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 5px 15px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        
+        h2 {
+            color: var(--secondary-color);
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 8px;
+            margin-top: 50px;
+            font-size: 1.8em;
+        }
+        
+        h3 {
+            color: var(--primary-color);
+            margin-top: 30px;
+            font-size: 1.4em;
+        }
+        
+        .article-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .article-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        ul {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 12px;
+            position: relative;
+        }
+        
+        li:before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .highlight-box {
+            background-color: #e8f4fc;
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .conclusion {
+            background-color: #f1f8e9;
+            border-left: 4px solid var(--success-color);
+            padding: 25px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--secondary-color);
+            color: white;
+            font-weight: 500;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        code {
+            background-color: #f4f4f4;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+            color: var(--accent-color);
+        }
+        
+        pre {
+            background-color: #272822;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin: 20px 0;
+        }
+        
+        .feature-card {
+            display: flex;
+            margin-bottom: 25px;
+            align-items: flex-start;
+            background-color: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .feature-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            color: var(--primary-color);
+            min-width: 30px;
+        }
+        
+        .feature-content {
+            flex: 1;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-tab {
+            padding: 10px 20px;
+            margin: 0 5px;
+            background-color: var(--light-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tab:hover, .nav-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .article-content {
+            display: none;
+        }
+        
+        .article-content.active {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            header {
+                padding: 25px 15px;
+            }
+            
+            .article-section {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            h2 {
+                font-size: 1.6em;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .nav-tab {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Artikel Sederhana</h1>
+        <p class="subtitle">Talent Management, Out Searching, dan Framework Laravel</p>
+        <div class="author">Oleh: Agus | Terakhir diperbarui: 12 Agustus 2025</div>
+    </header>
+
+    <div class="nav-tabs">
+        <div class="nav-tab active" onclick="showArticle('talent-management')">Talent Management</div>
+        <div class="nav-tab" onclick="showArticle('out-searching')">Out Searching</div>
+        <div class="nav-tab" onclick="showArticle('laravel')">Framework Laravel</div>
+    </div>
+
+    <!-- Talent Management Article -->
+    <div id="talent-management" class="article-content active">
+        <div class="article-section">
+            <h2>Apa Itu Talent Management?</h2>
+            <p><strong>Talent Management</strong> (manajemen bakat) adalah proses strategis dalam mengidentifikasi, merekrut, mengembangkan, mempertahankan, dan memanfaatkan talenta terbaik di sebuah organisasi. Tujuannya adalah memastikan bahwa perusahaan memiliki orang-orang yang tepat dengan keterampilan yang sesuai untuk mencapai tujuan bisnis.</p>
+            
+            <div class="highlight-box">
+                <p>Talent Management bukan hanya tentang merekrut karyawan terbaik, tetapi juga tentang menciptakan sistem yang memungkinkan mereka berkembang dan memberikan kontribusi maksimal bagi perusahaan.</p>
+            </div>
+        </div>
+
+        <div class="article-section">
+            <h2>Komponen Utama Talent Management</h2>
+            
+            <div class="feature-card">
+                <div class="feature-icon">1</div>
+                <div class="feature-content">
+                    <h3>Perencanaan & Identifikasi Bakat</h3>
+                    <ul>
+                        <li>Menentukan kebutuhan talenta berdasarkan strategi perusahaan</li>
+                        <li>Mengidentifikasi karyawan potensial yang dapat dikembangkan</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">2</div>
+                <div class="feature-content">
+                    <h3>Rekrutmen & Seleksi</h3>
+                    <ul>
+                        <li>Menarik kandidat terbaik yang sesuai dengan budaya dan kebutuhan perusahaan</li>
+                        <li>Proses seleksi yang efektif untuk memastikan kecocokan</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">3</div>
+                <div class="feature-content">
+                    <h3>Pengembangan & Pelatihan</h3>
+                    <ul>
+                        <li>Memberikan pelatihan, mentoring, dan kesempatan pengembangan karir</li>
+                        <li>Membantu karyawan meningkatkan keterampilan dan kompetensi</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">4</div>
+                <div class="feature-content">
+                    <h3>Retensi (Mempertahankan Karyawan)</h3>
+                    <ul>
+                        <li>Menciptakan lingkungan kerja yang mendukung dan memotivasi</li>
+                        <li>Memberikan insentif, penghargaan, dan jalur karir yang jelas</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">5</div>
+                <div class="feature-content">
+                    <h3>Suksesi & Kepemimpinan</h3>
+                    <ul>
+                        <li>Mempersiapkan pemimpin masa depan melalui program suksesi</li>
+                        <li>Mengidentifikasi calon pemimpin dan memberikan pengalaman kepemimpinan</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="article-section">
+            <h2>Manfaat Talent Management</h2>
+            <div class="feature-card">
+                <div class="feature-icon">✓</div>
+                <div class="feature-content">
+                    <h3>Meningkatkan produktivitas dan kinerja perusahaan</h3>
+                    <p>Karyawan yang tepat di posisi yang tepat akan memberikan hasil optimal</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">✓</div>
+                <div class="feature-content">
+                    <h3>Mengurangi turnover karyawan</h3>
+                    <p>Program pengembangan yang baik meningkatkan loyalitas karyawan</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">✓</div>
+                <div class="feature-content">
+                    <h3>Membangun budaya perusahaan yang kuat</h3>
+                    <p>Menciptakan lingkungan kerja yang positif dan kolaboratif</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">✓</div>
+                <div class="feature-content">
+                    <h3>Mempersiapkan perusahaan untuk menghadapi perubahan bisnis</h3>
+                    <p>Memiliki talenta yang siap beradaptasi dengan perubahan</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="article-section">
+            <h2>Contoh Penerapan Talent Management</h2>
+            <table>
+                <tr>
+                    <th>Program</th>
+                    <th>Manfaat</th>
+                </tr>
+                <tr>
+                    <td><strong>Program magang & rekrutmen lulusan terbaik</strong></td>
+                    <td>Membangun pipeline talenta sejak dini</td>
+                </tr>
+                <tr>
+                    <td><strong>Pelatihan kepemimpinan untuk manajer</strong></td>
+                    <td>Mempersiapkan pemimpin masa depan</td>
+                </tr>
+                <tr>
+                    <td><strong>Sistem penilaian kinerja berbasis kompetensi</strong></td>
+                    <td>Mengukur perkembangan karyawan secara objektif</td>
+                </tr>
+                <tr>
+                    <td><strong>Rencana penggantian posisi kunci (succession planning)</strong></td>
+                    <td>Memastikan kelangsungan bisnis</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="conclusion">
+            <h2>Kesimpulan</h2>
+            <p>Talent Management sangat penting bagi perusahaan untuk tetap kompetitif. Dengan mengelola bakat secara efektif, organisasi dapat memastikan bahwa mereka memiliki SDM yang berkualitas, siap menghadapi tantangan bisnis, dan mencapai tujuan jangka panjang.</p>
+            <p>Implementasi Talent Management yang baik akan menciptakan keunggulan kompetitif melalui pengoptimalan potensi sumber daya manusia dalam organisasi.</p>
+        </div>
+    </div>
+
+    <!-- Out Searching Article -->
+    <div id="out-searching" class="article-content">
+        <div class="article-section">
+            <h2>Definisi Out Searching</h2>
+            <p><strong>Out searching</strong> (pencarian luar) adalah tindakan mencari informasi, sumber daya, atau solusi <strong>melampaui batas pencarian biasa</strong>, baik dalam hal kedalaman, metode, maupun intensitas. Istilah ini menggambarkan upaya pencarian yang lebih giat dan kompetitif, sering kali dengan tujuan <strong>mengungguli hasil pencarian pihak lain</strong>.</p>
+            
+            <div class="highlight-box">
+                <h3>Asal Usul Istilah</h3>
+                <p>Kata "outsearch" berasal dari gabungan:</p>
+                <ul>
+                    <li><strong>"Out-"</strong> (awalan yang berarti "melampaui" atau "di luar").</li>
+                    <li><strong>"Search"</strong> (pencarian, dari bahasa Latin <em>circare</em> yang artinya "berkeliling").</li>
+                </ul>
+                <p>Kombinasi ini menekankan pencarian yang <strong>lebih ekstensif atau kompetitif</strong>.</p>
+            </div>
+        </div>
+
+        <div class="article-section">
+            <h2>Karakteristik Out Searching</h2>
+            
+            <div class="feature-card">
+                <div class="feature-icon">1</div>
+                <div class="feature-content">
+                    <h3>Lebih Mendalam</h3>
+                    <ul>
+                        <li>Mencari informasi hingga ke sumber yang tidak umum, seperti arsip khusus atau database premium</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">2</div>
+                <div class="feature-content">
+                    <h3>Kompetitif</h3>
+                    <ul>
+                        <li>Misalnya, dalam riset pasar, perusahaan berusaha "mengalahkan" pesaing dengan menemukan data yang lebih akurat</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">3</div>
+                <div class="feature-content">
+                    <h3>Menggunakan Metode Inovatif</h3>
+                    <ul>
+                        <li>Contoh: Memanfaatkan AI atau teknik <em>data mining</em> untuk analisis yang lebih canggih</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="article-section">
+            <h2>Contoh Penerapan</h2>
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <div class="feature-content">
+                    <h3>Bisnis</h3>
+                    <p>Tim riset mengumpulkan data pasar yang tidak terakses oleh kompetitor</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💻</div>
+                <div class="feature-content">
+                    <h3>Teknologi</h3>
+                    <p>Mesin pencari seperti Google menggunakan algoritma mutakhir untuk memberikan hasil lebih relevan daripada pesaingnya</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">♟️</div>
+                <div class="feature-content">
+                    <h3>Permainan Strategi</h3>
+                    <p>Dalam permainan catur komputer, program bisa "mengalahkan" lawan dengan menganalisis lebih banyak langkah potensial</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="article-section">
+            <h2>Perbedaan dengan Pencarian Biasa</h2>
+            <table>
+                <tr>
+                    <th>Out Searching</th>
+                    <th>Pencarian Biasa</th>
+                </tr>
+                <tr>
+                    <td>Fokus pada <strong>mengungguli</strong> pihak lain</td>
+                    <td>Hanya memenuhi kebutuhan dasar</td>
+                </tr>
+                <tr>
+                    <td>Menggunakan <strong>sumber tidak konvensional</strong></td>
+                    <td>Mengandalkan sumber umum (mis. Google)</td>
+                </tr>
+                <tr>
+                    <td>Dilakukan secara <strong>intensif dan sistematis</strong></td>
+                    <td>Cenderung sederhana</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="article-section">
+            <h2>Manfaat Out Searching</h2>
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <div class="feature-content">
+                    <h3>Keunggulan kompetitif</h3>
+                    <p>Di bidang bisnis atau akademik</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <div class="feature-content">
+                    <h3>Temuan lebih akurat</h3>
+                    <p>Karena cakupan yang luas</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⏱️</div>
+                <div class="feature-content">
+                    <h3>Efisiensi waktu</h3>
+                    <p>Dalam pengambilan keputusan</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>Kesimpulan</h2>
+            <p>Out searching adalah strategi pencarian <strong>proaktif dan kompetitif</strong> yang bertujuan untuk mendapatkan hasil lebih baik daripada standar biasa. Penerapannya penting dalam dunia bisnis, teknologi, dan penelitian untuk mencapai keunggulan.</p>
+        </div>
+    </div>
+
+    <!-- Laravel Article -->
+    <div id="laravel" class="article-content">
+        <div class="article-section">
+            <h2>Mengenal Laravel</h2>
+            <p>Laravel adalah <strong>framework PHP open-source</strong> yang dirancang untuk mempermudah pengembangan aplikasi web dengan sintaks yang elegan dan ekspresif. Dibuat oleh Taylor Otwell pada 2011, Laravel kini menjadi salah satu framework PHP paling populer di dunia.</p>
+            
+            <div class="highlight-box">
+                <h3>Filosofi Laravel</h3>
+                <ul>
+                    <li><strong>"Developer Happiness"</strong>: Membuat pengembangan web menyenangkan</li>
+                    <li><strong>Convention over Configuration</strong>: Mengurangi keputusan yang tidak perlu</li>
+                    <li><strong>Expressive Syntax</strong>: Kode yang mudah dibaca dan dipahami</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="article-section">
+            <h2>Fitur Utama Laravel</h2>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💎</div>
+                <div class="feature-content">
+                    <h3>Eloquent ORM</h3>
+                    <p>Sistem ORM (Object-Relational Mapping) terbaik di PHP:</p>
+                    <pre><code>// Query dasar
+$user = User::where('email', $email)->first();
+
+// Dengan relationship
+$posts = Post::with('comments.user')->get();</code></pre>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🌀</div>
+                <div class="feature-content">
+                    <h3>Blade Templating Engine</h3>
+                    <p>Sistem templating yang powerful:</p>
+                    <pre><code>@foreach($users as $user)
+    &lt;li>{{ $user->name }}&lt;/li>
+@endforeach</code></pre>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <div class="feature-content">
+                    <h3>Artisan CLI</h3>
+                    <p>Command Line Interface untuk otomatisasi:</p>
+                    <pre><code>php artisan make:model Product -mcr</code></pre>
+                    <p>Membuat Model, Migration, dan Controller sekaligus</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="article-section">
+            <h2>Perbandingan Framework PHP Populer</h2>
+            
+            <table>
+                <tr>
+                    <th>Framework</th>
+                    <th>Keunggulan</th>
+                    <th>Kekurangan</th>
+                    <th>Cocok Untuk</th>
+                </tr>
+                <tr>
+                    <td><strong>Laravel</strong></td>
+                    <td>Sintaks elegan, ekosistem lengkap</td>
+                    <td>Kurang cocok untuk microservices</td>
+                    <td>Aplikasi web kompleks</td>
+                </tr>
+                <tr>
+                    <td><strong>CodeIgniter</strong></td>
+                    <td>Ringan, mudah dipelajari</td>
+                    <td>Fitur terbatas</td>
+                    <td>Projek kecil-sedang</td>
+                </tr>
+                <tr>
+                    <td><strong>Symfony</strong></td>
+                    <td>Modular, enterprise-ready</td>
+                    <td>Kurva belajar curam</td>
+                    <td>Sistem enterprise</td>
+                </tr>
+                <tr>
+                    <td><strong>Yii</strong></td>
+                    <td>Performa tinggi</td>
+                    <td>Komunitas kecil</td>
+                    <td>Aplikasi high-load</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="article-section">
+            <h2>Keistimewaan Laravel</h2>
+            
+            <div class="feature-card">
+                <div class="feature-icon">1️⃣</div>
+                <div class="feature-content">
+                    <h3>Sintaks Paling Elegan</h3>
+                    <p>Contoh pembuatan route:</p>
+                    <pre><code>// Laravel
+Route::get('/user', [UserController::class, 'show']);
+
+// Framework lain (contoh):
+$router->get('/user', 'UserController@show');</code></pre>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">2️⃣</div>
+                <div class="feature-content">
+                    <h3>Ekosistem Terlengkap</h3>
+                    <ul>
+                        <li><strong>Laravel Forge</strong>: Server provisioning</li>
+                        <li><strong>Laravel Vapor</strong>: Serverless deployment</li>
+                        <li><strong>Laravel Nova</strong>: Admin panel premium</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">3️⃣</div>
+                <div class="feature-content">
+                    <h3>Eloquent ORM Terbaik</h3>
+                    <pre><code>// Query dengan relationship di Laravel
+$posts = Post::with('comments.user')->get();
+
+// Bandingkan dengan framework lain
+$posts = Post::find()->with(['comments', 'comments.user'])->all();</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="article-section">
+            <h2>Performa Laravel vs Framework Lain</h2>
+            
+            <table>
+                <tr>
+                    <th>Benchmark (Requests/sec)</th>
+                    <th>Laravel</th>
+                    <th>Symfony</th>
+                    <th>CodeIgniter</th>
+                </tr>
+                <tr>
+                    <td>Hello World</td>
+                    <td>1,200</td>
+                    <td>1,500</td>
+                    <td>2,100</td>
+                </tr>
+                <tr>
+                    <td>CRUD Operation</td>
+                    <td>850</td>
+                    <td>900</td>
+                    <td>1,100</td>
+                </tr>
+                <tr>
+                    <td>Dengan Caching</td>
+                    <td>1,800</td>
+                    <td>1,700</td>
+                    <td>1,500</td>
+                </tr>
+            </table>
+            <p><em>Catatan: Angka relatif pada server yang sama</em></p>
+        </div>
+
+        <div class="conclusion">
+            <h2>Kesimpulan</h2>
+            <p>Laravel menawarkan <strong>"developer happiness"</strong> dengan:</p>
+            <ul>
+                <li>Sintaks yang manusiawi dan mudah dipahami</li>
+                <li>Fitur siap pakai yang sangat lengkap</li>
+                <li>Ekosistem yang matang dan terus berkembang</li>
+                <li>Dukungan komunitas yang besar dan aktif</li>
+            </ul>
+            
+            <p><strong>"Laravel itu seperti bengkel lengkap dengan semua alat premium, sementara framework lain mungkin hanya memberi Anda kotak peralatan dasar."</strong></p>
+            
+            <p>Untuk sebagian besar proyek web PHP modern, Laravel adalah pilihan terbaik yang menghemat waktu dan mengurangi frustrasi development.</p>
+            <p>
+  Jika Ragu dengan artikel soal Laravel yang saya buat, bisa cek dan baca langsung yaa di 
+  <a href="https://laravel.com/docs/12.x" target="_blank">https://laravel.com/docs/12.x</a>
+</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Artikel Sederhana | Hak Cipta Dilindungi</p>
+        <p>Penulis: Agus | Terakhir diperbarui: 12 Agustus 2025</p>
+    </footer>
+
+    <script>
+        function showArticle(articleId) {
+            // Hide all articles
+            document.querySelectorAll('.article-content').forEach(article => {
+                article.classList.remove('active');
+            });
+            
+            // Show selected article
+            document.getElementById(articleId).classList.add('active');
+            
+            // Update active tab
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            event.currentTarget.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
